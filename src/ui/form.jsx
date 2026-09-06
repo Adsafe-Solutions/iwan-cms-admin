@@ -24,7 +24,11 @@ const tone = (invalid) => TONE[invalid ? "invalid" : "normal"];
    reader reads the error with the control. `children` is a render function
    taking those props, which keeps the wiring here rather than at every call
    site. */
-export function Field({ label, hint, error, required, className, children }) {
+/* `required` is the browser's own rule — nothing saves without it. `toPublish`
+   is ours: the same asterisk, but the field can be left empty in a DRAFT and is
+   only refused when the record is published. ⚠ Deliberately NOT the native
+   attribute, or half-written work could not be saved at all. */
+export function Field({ label, hint, error, required, toPublish, className, children }) {
   const id = useId();
   const hintId = `${id}-hint`;
   const errorId = `${id}-error`;
@@ -34,8 +38,12 @@ export function Field({ label, hint, error, required, className, children }) {
       {label && (
         <label htmlFor={id} className="text-[13px] font-medium text-fg">
           {label}
-          {required && (
-            <span className="ml-1 text-danger" aria-hidden="true">
+          {(required || toPublish) && (
+            <span
+              className="ml-1 text-danger"
+              title={required ? "Required" : "Required before this can be published"}
+              aria-hidden="true"
+            >
               *
             </span>
           )}

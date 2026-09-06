@@ -251,13 +251,14 @@ function BlocksField({ value, onChange, error }) {
   );
 }
 
-function CtaField({ value, onChange, error }) {
+function CtaField({ value, onChange, error, toPublish }) {
   const cta = value ?? { label: "", to: "/" };
 
   return (
     <Field
       label="Button"
       error={error}
+      toPublish={toPublish}
       hint="The link is an in-app path like /events — the pop-up closes itself and the site navigates."
     >
       {() => (
@@ -366,6 +367,7 @@ export function renderField({
     hint: field.hint,
     error,
     required: field.required,
+    toPublish: field.toPublish,
   };
 
   switch (field.kind) {
@@ -584,7 +586,12 @@ export function renderField({
 
     case "html":
       return (
-        <Field label={field.label} hint={field.hint} error={error}>
+        <Field
+          label={field.label}
+          hint={field.hint}
+          error={error}
+          toPublish={field.toPublish}
+        >
           {() => (
             <RichText
               value={value ?? ""}
@@ -597,7 +604,14 @@ export function renderField({
       );
 
     case "cta":
-      return <CtaField value={value} onChange={onChange} error={error} />;
+      return (
+        <CtaField
+          value={value}
+          onChange={onChange}
+          error={error}
+          toPublish={field.toPublish}
+        />
+      );
 
     case "text":
     default:

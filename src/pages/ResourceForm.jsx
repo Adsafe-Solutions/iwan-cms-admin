@@ -133,14 +133,12 @@ export default function ResourceForm({ resourceKey }) {
     } catch (err) {
       const errors = err.fieldErrors ?? {};
       setFieldErrors(errors);
-      /* Field failures show against their field; anything else needs a banner,
-         or the form appears to do nothing. */
-      setFormError(Object.keys(errors).length ? null : err.message);
-      if (Object.keys(errors).length) {
-        toast.error("Some fields need fixing");
-      } else {
-        toast.error(err.message);
-      }
+      /* ⚠ The banner carries the API's own sentence either way. Field errors
+         alone said "Some fields need fixing" over a long form, leaving the
+         reason — "Not published: Summary and Image are needed first" — only
+         visible against controls that may be off screen. */
+      setFormError(err.message);
+      toast.error(err.message);
     } finally {
       setSaving(false);
       setConfirmSave(false);

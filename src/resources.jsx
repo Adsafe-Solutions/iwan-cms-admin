@@ -132,6 +132,7 @@ export const RESOURCES = {
           { name: "slug", kind: "slug" },
           {
             name: "kind",
+            toPublish: true,
             label: "Kind",
             kind: "text",
             width: "half",
@@ -141,6 +142,7 @@ export const RESOURCES = {
           { name: "programme", kind: "programme", width: "half" },
           {
             name: "summary",
+            toPublish: true,
             label: "Summary",
             kind: "textarea",
             rows: 2,
@@ -148,6 +150,7 @@ export const RESOURCES = {
           },
           {
             name: "details",
+            toPublish: true,
             label: "Details",
             kind: "textarea",
             rows: 7,
@@ -165,14 +168,20 @@ export const RESOURCES = {
             required: true,
             width: "third",
           },
-          { name: "start", label: "Starts", kind: "time", width: "third" },
-          { name: "end", label: "Ends", kind: "time", width: "third" },
+          {
+            name: "start",
+            label: "Starts",
+            kind: "time",
+            width: "third",
+            toPublish: true,
+          },
+          { name: "end", label: "Ends", kind: "time", width: "third", toPublish: true },
         ],
       },
       {
         title: "Where",
         fields: [
-          { name: "venue", label: "Venue", kind: "text", width: "half" },
+          { name: "venue", label: "Venue", kind: "text", width: "half", toPublish: true },
           {
             name: "spots",
             label: "Spots",
@@ -214,6 +223,7 @@ export const RESOURCES = {
         fields: [
           {
             name: "img",
+            toPublish: true,
             label: "Image",
             kind: "image",
             hint: "Upload a file, or paste a full https:// URL.",
@@ -276,6 +286,7 @@ export const RESOURCES = {
           { name: "slug", kind: "slug" },
           {
             name: "date",
+            toPublish: true,
             label: "Date",
             kind: "date",
             width: "half",
@@ -284,6 +295,7 @@ export const RESOURCES = {
           { name: "programme", kind: "programme", width: "half" },
           {
             name: "excerpt",
+            toPublish: true,
             label: "Excerpt",
             kind: "textarea",
             rows: 2,
@@ -293,7 +305,7 @@ export const RESOURCES = {
       },
       {
         title: "Body",
-        fields: [{ name: "html", kind: "html" }],
+        fields: [{ name: "html", kind: "html", toPublish: true }],
       },
       {
         title: "Photo",
@@ -350,6 +362,7 @@ export const RESOURCES = {
       countries: [],
       status: "draft",
       author: "",
+      description: "",
       programme: null,
       audio: "",
       video: "",
@@ -373,6 +386,15 @@ export const RESOURCES = {
             width: "half",
           },
           { name: "programme", kind: "programme", width: "half" },
+          {
+            name: "description",
+            toPublish: true,
+            label: "About this episode",
+            kind: "textarea",
+            rows: 5,
+            placeholder: "What this episode covers, who is on it, why to listen.",
+            hint: "Shown on the episode's own page. Leave it blank and the page falls back to the show's blurb from Show settings. Blank lines are kept.",
+          },
         ],
       },
       {
@@ -508,6 +530,7 @@ export const RESOURCES = {
           },
           {
             name: "heading",
+            toPublish: true,
             label: "Heading — plain part",
             kind: "text",
             width: "half",
@@ -519,8 +542,8 @@ export const RESOURCES = {
             kind: "text",
             placeholder: "open for registration.",
           },
-          { name: "body", label: "Body", kind: "textarea", rows: 3 },
-          { name: "cta", kind: "cta" },
+          { name: "body", label: "Body", kind: "textarea", rows: 3, toPublish: true },
+          { name: "cta", kind: "cta", toPublish: true },
           {
             name: "dismiss",
             label: "Dismiss label",
