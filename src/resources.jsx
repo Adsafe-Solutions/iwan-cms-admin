@@ -459,16 +459,6 @@ export const RESOURCES = {
       },
       countriesColumn,
       statusColumn,
-      {
-        header: "Priority",
-        width: "w-[90px]",
-        cell: (row) =>
-          row.priority ? (
-            <Badge>{row.priority}</Badge>
-          ) : (
-            <span className="text-fg-subtle">—</span>
-          ),
-      },
     ],
 
     empty: () => ({
@@ -484,7 +474,6 @@ export const RESOURCES = {
       dismiss: "Maybe later",
       startsAt: "",
       endsAt: "",
-      priority: 0,
     }),
 
     sections: [
@@ -546,15 +535,8 @@ export const RESOURCES = {
         description:
           "Both dates are optional and inclusive. Leave them blank for a promo that runs until you unpublish it. Only one published promo may cover a given date for the same audience — publishing a second one over these dates is refused, so end this one or keep the new one as a draft.",
         fields: [
-          { name: "startsAt", label: "Starts", kind: "date", width: "third" },
-          { name: "endsAt", label: "Ends", kind: "date", width: "third" },
-          {
-            name: "priority",
-            label: "Priority",
-            kind: "number",
-            width: "third",
-            hint: "A tiebreak for promos that already overlap; new ones cannot.",
-          },
+          { name: "startsAt", label: "Starts", kind: "date", width: "half" },
+          { name: "endsAt", label: "Ends", kind: "date", width: "half" },
         ],
       },
       publishingSection,
