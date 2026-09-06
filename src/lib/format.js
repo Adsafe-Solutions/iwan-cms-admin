@@ -47,6 +47,34 @@ export const formatWhen = (value) => {
   });
 };
 
+/* "18:30" → "6:30 PM" — the same conversion the SITE applies when it prints a
+   time, mirrored here so the agenda editor shows what the event page will say.
+
+   ⚠ Free text passes through unchanged, exactly as it does on the site: an
+   agenda row's time is a plain string, so "After Maghrib" is a real value. */
+export const formatClock = (value) => {
+  const text = String(value ?? "").trim();
+  const m = /^(\d{1,2}):(\d{2})$/.exec(text);
+  if (!m) return text;
+
+  const hours = Number(m[1]);
+  if (hours > 23 || Number(m[2]) > 59) return text;
+
+  return `${hours % 12 || 12}:${m[2]} ${hours < 12 ? "AM" : "PM"}`;
+};
+
+/* The value a <input type="time"> can hold, or null for anything it cannot —
+   which is what keeps a free-text row out of the picker and in a text box. */
+export const clockValue = (value) => {
+  const text = String(value ?? "").trim();
+  const m = /^(\d{1,2}):(\d{2})$/.exec(text);
+  if (!m) return null;
+
+  const hours = Number(m[1]);
+  if (hours > 23 || Number(m[2]) > 59) return null;
+  return `${String(hours).padStart(2, "0")}:${m[2]}`;
+};
+
 /* Seconds → "5:48", as the site's player prints it. */
 export const formatLength = (seconds) => {
   if (!Number.isFinite(seconds)) return "—";

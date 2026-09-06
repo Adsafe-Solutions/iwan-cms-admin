@@ -7,6 +7,7 @@ import { FormBuilder } from "./FormBuilder.jsx";
 import ImageField from "./ImageField.jsx";
 import AddressField from "./AddressField.jsx";
 import { slugify, isValidSlug } from "../lib/slug.js";
+import { clockValue, formatClock } from "../lib/format.js";
 
 /* One renderer per field kind, called by ResourceForm as it walks a resource's
    spec — which is why adding a content type is a config entry rather than a new
@@ -133,6 +134,48 @@ function DurationField({ field, value, onChange, error }) {
   );
 }
 
+/* The clock beside a running-order row.
+
+   ⚠ A time is STORED as 24-hour ("16:00") and PRINTED as "4:00 PM" — the site
+   does that conversion, and the grey preview here is the same one, so an
+   editor can see which half of the day a row lands in without trusting the
+   picker's own format (a browser set to en-GB draws it as 24-hour). An event
+   that ran 4pm–7pm was published with a running order starting at 04:00, which
+   is the mistake both halves of this exist to make visible.
+
+   A value the picker cannot hold keeps a plain text box instead, so a row
+   reading "After Maghrib" can never be silently emptied by one. */
+function AgendaTime({ value, onChange }) {
+  const picked = clockValue(value);
+  const freeText = Boolean(value) && picked === null;
+
+  if (freeText) {
+    return (
+      <Input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        aria-label="Time"
+        className="text-[13px]"
+      />
+    );
+  }
+
+  return (
+    <span className="flex items-center gap-2">
+      <Input
+        type="time"
+        value={picked ?? ""}
+        onChange={(e) => onChange(e.target.value)}
+        aria-label="Time"
+        className="min-w-0 flex-1 text-[13px]"
+      />
+      <span className="w-[62px] flex-none text-[12px] font-semibold text-fg-muted">
+        {formatClock(value)}
+      </span>
+    </span>
+  );
+}
+
 function AgendaField({ value, onChange, error }) {
   return (
     <Field error={error}>
@@ -145,13 +188,10 @@ function AgendaField({ value, onChange, error }) {
           emptyLabel="No running order — the site leaves that block out entirely."
           max={40}
           renderRow={(row, update) => (
-            <div className="grid gap-2 sm:grid-cols-[110px_1fr]">
-              <Input
+            <div className="grid gap-2 sm:grid-cols-[210px_1fr]">
+              <AgendaTime
                 value={row.time ?? ""}
-                onChange={(e) => update({ ...row, time: e.target.value })}
-                placeholder="18:30"
-                aria-label="Time"
-                className="font-mono text-[13px]"
+                onChange={(time) => update({ ...row, time })}
               />
               <Input
                 value={row.label ?? ""}

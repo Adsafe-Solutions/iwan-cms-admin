@@ -206,7 +206,7 @@ export const RESOURCES = {
       {
         title: "Running order",
         description:
-          "Optional. Shown as a timeline on the event's page — leave it empty and that whole block is absent rather than blank.",
+          "Optional. Shown as a timeline on the event's page — leave it empty and that whole block is absent rather than blank. Times print as \u201c4:00 PM\u201d there, which is what the grey preview beside each picker shows.",
         fields: [{ name: "agenda", kind: "agenda" }],
       },
       {
@@ -415,7 +415,7 @@ export const RESOURCES = {
     singular: "Promo",
     icon: IconSpeakerphone,
     description:
-      "The pop-up that greets a visitor. Only one shows at a time — a promo naming a country beats a global one, then the highest priority wins.",
+      "The pop-up that greets a visitor. One published promo per date: publishing a second one over the same dates, for the same countries, is refused.",
     emptyBody: "Create a promo to greet visitors with a campaign.",
     slugFrom: "name",
     titleOf: (row) => row.name || row.heading,
@@ -439,7 +439,9 @@ export const RESOURCES = {
               ? { label: "Ended", tone: "danger" }
               : row.startsAt && row.startsAt > today
                 ? { label: "Scheduled", tone: "warn" }
-                : null;
+                : row.status === "published"
+                  ? { label: "Live", tone: "success" }
+                  : null;
 
           return (
             <span className="flex flex-wrap items-center gap-1.5">
@@ -542,7 +544,7 @@ export const RESOURCES = {
       {
         title: "When it runs",
         description:
-          "Both dates are optional and inclusive. Leave them blank for a promo that runs until you unpublish it.",
+          "Both dates are optional and inclusive. Leave them blank for a promo that runs until you unpublish it. Only one published promo may cover a given date for the same audience — publishing a second one over these dates is refused, so end this one or keep the new one as a draft.",
         fields: [
           { name: "startsAt", label: "Starts", kind: "date", width: "third" },
           { name: "endsAt", label: "Ends", kind: "date", width: "third" },
@@ -551,7 +553,7 @@ export const RESOURCES = {
             label: "Priority",
             kind: "number",
             width: "third",
-            hint: "Higher wins.",
+            hint: "A tiebreak for promos that already overlap; new ones cannot.",
           },
         ],
       },

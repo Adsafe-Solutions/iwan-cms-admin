@@ -76,11 +76,15 @@ export default function ShowSettings() {
                 )}
               </Field>
 
-              <Field label="Description" error={fieldErrors.description}>
+              <Field
+                label="Description"
+                error={fieldErrors.description}
+                hint="The show’s blurb. Opens /podcast, and every episode page carries it under “About the show”. Blank lines are kept."
+              >
                 {(props) => (
                   <Textarea
                     {...props}
-                    rows={4}
+                    rows={5}
                     value={form.description}
                     onChange={set("description")}
                   />
@@ -129,7 +133,7 @@ export default function ShowSettings() {
           title="Save show settings?"
           confirmLabel="Save"
           confirmVariant="primary"
-          body="The podcast's title, blurb and artwork appear on /podcast for every visitor."
+          body="The podcast's title, blurb and artwork appear on /podcast and on every episode page, for every visitor."
         />
       </fieldset>
     </form>
