@@ -15,6 +15,11 @@ import { cx } from "../lib/cx.js";
 
    The preview is the real proof. It renders the URL in the box, whatever put
    it there, so a broken paste shows as broken here rather than on the site. */
+/* Kept in step with the API's own limit (lib/storage.js), which is lower on
+   Vercel than on a normal server — hence an env var rather than a literal. */
+const MAX_UPLOAD_MB = Number(import.meta.env.VITE_MAX_UPLOAD_MB || 4);
+const MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024;
+
 export default function ImageField({ value, onChange, placeholder }) {
   const fileRef = useRef(null);
   const [busy, setBusy] = useState(false);
@@ -28,6 +33,17 @@ export default function ImageField({ value, onChange, placeholder }) {
        event otherwise, so a failed upload could not be retried. */
     e.target.value = "";
     if (!file) return;
+
+    /* ⚠ Checked HERE as well as on the API, because the host can reject an
+       oversized body before the API ever sees it — Vercel does, at 4.5MB, with
+       a page rather than a sentence. Refusing it locally is the difference
+       between "Images must be under 4MB" and an unexplained failure. */
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setFailed(
+        `That image is ${Math.round(file.size / 1024 / 1024)}MB — the limit is ${MAX_UPLOAD_MB}MB.`
+      );
+      return;
+    }
 
     setBusy(true);
     setFailed("");
