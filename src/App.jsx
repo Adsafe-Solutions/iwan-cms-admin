@@ -47,7 +47,10 @@ function Signed() {
 
           {/* The old path was in the nav for a while and may be bookmarked. */}
           <Route path="event-registrations" element={<Registrations />} />
-          <Route path="audience" element={<Audience />} />
+          <Route
+            path="audience"
+            element={isAdmin ? <Audience /> : <Navigate to="/" replace />}
+          />
           <Route path="contact" element={<ContactInbox />} />
           <Route path="applications" element={<Applications />} />
           <Route path="apply-forms">

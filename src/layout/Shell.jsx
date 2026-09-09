@@ -115,19 +115,21 @@ export default function Shell() {
           <IconInbox size={16} stroke={1.8} />
           Event registrations
         </NavLink>
-        <NavLink
-          to="/audience"
-          className={({ isActive }) => cx(NAV_ITEM, isActive ? NAV_ACTIVE : NAV_IDLE)}
-        >
-          <IconAddressBook size={16} stroke={1.8} />
-          Audience
-        </NavLink>
+        {isAdmin && (
+          <NavLink
+            to="/audience"
+            className={({ isActive }) => cx(NAV_ITEM, isActive ? NAV_ACTIVE : NAV_IDLE)}
+          >
+            <IconAddressBook size={16} stroke={1.8} />
+            Audience
+          </NavLink>
+        )}
         <NavLink
           to="/contact"
           className={({ isActive }) => cx(NAV_ITEM, isActive ? NAV_ACTIVE : NAV_IDLE)}
         >
           <IconMail size={16} stroke={1.8} />
-          Contact
+          Contact Us
         </NavLink>
         <NavLink
           to="/applications"
