@@ -264,7 +264,7 @@ function Brand({ theme, onClose }) {
       {/* ⚠ The wordmark says "iwan.community", which is the SITE. This label is
           what stops someone believing they are looking at it. */}
       <span className="flex-1 text-[14px] font-bold uppercase tracking-[0.14em] text-fg-subtle">
-        ADMIN
+        CMS
       </span>
       {onClose && (
         <button
