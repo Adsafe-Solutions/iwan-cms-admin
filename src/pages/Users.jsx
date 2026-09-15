@@ -86,11 +86,15 @@ export default function Users() {
             <Tbody>
               {items.map((row) => {
                 const isMe = row.id === me?.id;
+                const locked = isMe || row.master;
                 return (
                   <Tr key={row.id} className={!row.active ? "opacity-55" : undefined}>
                     <Td>
                       <p className="font-medium text-fg">
                         {row.name || "—"}
+                        {row.master && (
+                          <span className="ml-2 text-[12px] text-fg-subtle">(master)</span>
+                        )}
                         {isMe && (
                           <span className="ml-2 text-[12px] text-fg-subtle">(you)</span>
                         )}
@@ -121,14 +125,14 @@ export default function Users() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          disabled={isMe}
+                          disabled={locked}
                           onClick={() => setActive(row, !row.active)}
                         >
                           {row.active ? "Deactivate" : "Reactivate"}
                         </Button>
                         <button
                           type="button"
-                          disabled={isMe}
+                          disabled={locked}
                           onClick={() => setPendingDelete(row)}
                           aria-label={`Delete ${row.email}`}
                           className="rounded p-1.5 text-fg-subtle transition-colors hover:bg-danger-soft hover:text-danger disabled:pointer-events-none disabled:opacity-30"
