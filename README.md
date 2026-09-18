@@ -145,7 +145,8 @@ Set per deployment:
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `VITE_API_URL`   | the API this build talks to                                                                                                                                             |
 | `VITE_SITE_URL`  | the public site, for the sidebar's "View the site" link                                                                                                                 |
-| `VITE_ENV_LABEL` | a badge beside the logo. **Set it on every non-production deploy** — it is what stops someone editing the live site believing they are on dev. Leave it empty for prod. |
+| `VITE_MAX_UPLOAD_MB` | what the Upload button refuses before it even tries — match it to the API's own limit for whichever host it is pointed at (10MB normally, 4MB against Vercel) |
+| `VITE_ENV_LABEL` | ⚠ **documented here, not actually implemented** — nothing in `src/` currently reads this variable. It was meant to be a badge beside the logo distinguishing a dev/staging deploy from production; that protection does not exist in the running app yet, whatever this table implies. Either build it or remove this row — do not assume setting it does anything today. |
 
 ⚠ Vite inlines `VITE_*` at **build** time, so changing one means a redeploy, and
 nothing here may ever be a secret — the whole bundle is public.
