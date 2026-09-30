@@ -29,7 +29,9 @@ blank) — do not collapse these into one blank state.
 
 Same status-button pattern (`new → confirmed → waitlist → cancelled`). Two
 things unique to this screen: a per-event capacity display
-(`current.taken`/`current.spots`), and a **resend confirmation** button
+(`current.taken`/`current.spots`; `taken` counts only `new`/`confirmed`, the
+same rule that makes the public site show an event as full — cancelling
+someone frees their place), and a **resend confirmation** button
 (`POST /api/admin/registrations/:id/resend`) calling the exact
 `sendRegistrationConfirmation()` covered in `iwan-cms-api`'s
 `resend-email-system` skill. `confirmationSentAt`/`confirmationSentCount` are
